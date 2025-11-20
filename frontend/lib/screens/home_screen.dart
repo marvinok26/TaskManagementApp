@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontendnew/colors/app_colors.dart';
-import 'package:frontendnew/widgets/buttin_widget.dart';
+import 'package:frontendnew/widgets/button_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
