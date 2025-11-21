@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontendnew/screens/add_task.dart';
+import 'package:frontendnew/screens/all_tasks.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const AddTask(),
+      home: const AllTasks(),
     );
   }
 }
