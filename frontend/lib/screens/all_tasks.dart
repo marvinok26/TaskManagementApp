@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontendnew/colors/app_colors.dart';
+import 'package:frontendnew/widgets/button_widget.dart';
 import 'package:frontendnew/widgets/task_widget.dart';
 
 class AllTasks extends StatelessWidget {
@@ -8,6 +9,20 @@ class AllTasks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List myData = ["Try Harder", "Try Smarter"];
+
+    final leftEditIcon = Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      color: Color(0xFF2e3253).withOpacity(0.5),
+      child: const Icon(Icons.edit, color: Colors.white),
+      alignment: Alignment.centerLeft,
+    );
+
+    final rightDeleteIcon = Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      color: Colors.redAccent,
+      child: const Icon(Icons.delete, color: Colors.white),
+      alignment: Alignment.centerRight,
+    );
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -67,12 +82,59 @@ class AllTasks extends StatelessWidget {
               itemCount: myData.length,
               itemBuilder: (context, index) {
                 return Dismissible(
+                  background: leftEditIcon,
+                  secondaryBackground: rightDeleteIcon,
                   onDismissed: (DismissDirection direction) {
                     print("after dismiss");
                   },
                   confirmDismiss: (DismissDirection direction) async {
-                    print("confirming");
-                    return true;
+                    if (direction == DismissDirection.startToEnd) {
+                      showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        barrierColor: Colors.transparent,
+                        context: context,
+                        builder: (_) {
+                          return Container(
+                            height: 550,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF2e3253).withOpacity(0.4),
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                topLeft: Radius.circular(20),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ButtonWidget(
+                                    backgroundcolor: AppColors.mainColor,
+                                    textColor: Colors.white,
+                                    text: "View",
+                                  ),
+                                  SizedBox(height: 20),
+                                  ButtonWidget(
+                                    backgroundcolor: AppColors.mainColor,
+                                    textColor: Colors.white,
+                                    text: "Edit",
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                      return false;
+                    } else {
+                      return Future.delayed(
+                        Duration(seconds: 1),
+                        () => direction == DismissDirection.endToStart,
+                      );
+                    }
                   },
                   key: ObjectKey(index),
                   child: Container(
