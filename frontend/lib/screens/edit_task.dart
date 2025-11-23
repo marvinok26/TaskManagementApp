@@ -6,28 +6,32 @@ import 'package:frontendnew/widgets/button_widget.dart';
 import 'package:frontendnew/widgets/textfield_widget.dart';
 import 'package:get/get.dart';
 
-class AddTask extends StatelessWidget {
-  AddTask({super.key});
-
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController detailController = TextEditingController();
-
-  void _dataValidation(BuildContext context) {
-    if (nameController.text.trim() == '') {
-      showCustomSnackBar(context, "Task name is empty", isError: true);
-    } else if (detailController.text.trim() == '') {
-      showCustomSnackBar(context, "Task detail is empty", isError: true);
-    } else {
-      Get.find<DataController>().postData(
-        nameController.text,
-        detailController.text,
-        context,
-      );
-    }
-  }
+class EditTask extends StatelessWidget {
+  final Map<String, dynamic> task;
+  const EditTask({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController nameController =
+        TextEditingController(text: task['task_name']);
+    final TextEditingController detailController =
+        TextEditingController(text: task['task_detail']);
+
+    void _dataValidation(BuildContext context) {
+      if (nameController.text.trim() == '') {
+        showCustomSnackBar(context, "Task name is empty", isError: true);
+      } else if (detailController.text.trim() == '') {
+        showCustomSnackBar(context, "Task detail is empty", isError: true);
+      } else {
+        Get.find<DataController>().updateData(
+          task['id'],
+          nameController.text,
+          detailController.text,
+          context,
+        );
+      }
+    }
+
     return Scaffold(
       body: Builder(builder: (context) {
         return Container(
@@ -36,7 +40,7 @@ class AddTask extends StatelessWidget {
           decoration: const BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage("assets/addtask1.jpg"),
+              image: AssetImage("assets/addtask2.jpg"),
             ),
           ),
           child: SafeArea(
@@ -83,7 +87,7 @@ class AddTask extends StatelessWidget {
                             },
                             child: ButtonWidget(
                               backgroundcolor: AppColors.mainColor,
-                              text: "Add",
+                              text: "Update",
                               textColor: Colors.white,
                             ),
                           ),
