@@ -55,12 +55,13 @@ class DataController extends GetxController {
     }
   }
 
-  Future<void> updateData(String id, String taskName, String taskDetail, BuildContext context) async {
+  Future<void> updateData(dynamic id, String taskName, String taskDetail, BuildContext context) async {
     _isLoading = true;
     update();
 
     try {
-      await _dbService.updateTask(int.parse(id), {
+      int taskId = id is int ? id : int.parse(id.toString());
+      await _dbService.updateTask(taskId, {
         'task_name': taskName,
         'task_detail': taskDetail,
         'date': DateTime.now().toString().split(' ')[0],
